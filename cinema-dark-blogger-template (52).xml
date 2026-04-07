@@ -41,12 +41,12 @@
 --header-h:56px;--bnav-h:64px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-tap-highlight-color:transparent}
+html{-webkit-tap-highlight-color:transparent;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 
 
 
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden}
-body.bn-visible{padding-bottom:var(--bnav-h)}
+body.bn-visible{padding-bottom:calc(var(--bnav-h) + 10px)}
 a{text-decoration:none;color:inherit;transition:var(--tr)}
 a:hover{color:var(--accent)}
 img{max-width:100%;height:auto;display:block}
