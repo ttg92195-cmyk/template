@@ -1256,6 +1256,9 @@ function initTabs(){
   if(pdWrap){
     var startX=0,startY=0,swiping=false,swipeThreshold=50;
     pdWrap.addEventListener('touchstart',function(e){
+      /* Ignore swipe on horizontally scrollable containers (explore cards, genre scrolls) */
+      var scrollEl=e.target.closest('.explore-scroll,.genre-scroll');
+      if(scrollEl)return;
       var t=e.touches[0];
       startX=t.clientX;startY=t.clientY;swiping=true;
     },{passive:true});
