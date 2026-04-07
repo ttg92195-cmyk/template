@@ -1220,31 +1220,65 @@ function buildPagination(url){
   pagEl.innerHTML=html;
 }
 
-/* ===== POST DETAIL: Tabs ===== */
-function initTabs(){
+/* ===== POST DETAIL: Tabs (with swipe support) ===== */
+var tabOrder=['detail','download','explore'];
+function switchTab(tabName){
   var tabBtns=document.querySelectorAll('.pd-tab-btn');
   var panels=document.querySelectorAll('.pd-tab-panel');
   var tabContainer=document.querySelector('.pd-tabs');
+  for(var j=0;j<tabBtns.length;j++)tabBtns[j].classList.remove('active');
+  for(var j=0;j<panels.length;j++)panels[j].classList.remove('active');
+  var activeBtn=document.querySelector('.pd-tab-btn[data-tab="'+tabName+'"]');
+  if(activeBtn)activeBtn.classList.add('active');
+  var target=document.getElementById('tab'+tabName.charAt(0).toUpperCase()+tabName.slice(1));
+  if(target)target.classList.add('active');
+  /* Auto-scroll tab into view */
+  if(tabContainer&&activeBtn){
+    var btnLeft=activeBtn.offsetLeft;
+    var btnWidth=activeBtn.offsetWidth;
+    var containerWidth=tabContainer.offsetWidth;
+    var scrollTo=btnLeft-(containerWidth/2)+(btnWidth/2);
+    tabContainer.scrollTo({left:scrollTo,behavior:'smooth'});
+  }
+  /* Load explore on first swipe */
+  if(tabName==='explore'&&!exploreLoaded){loadExplore();exploreLoaded=true;}
+}
+function initTabs(){
+  var tabBtns=document.querySelectorAll('.pd-tab-btn');
   for(var i=0;i<tabBtns.length;i++){
     tabBtns[i].addEventListener('click',function(){
       var tab=this.getAttribute('data-tab');
-      for(var j=0;j<tabBtns.length;j++)tabBtns[j].classList.remove('active');
-      for(var j=0;j<panels.length;j++)panels[j].classList.remove('active');
-      this.classList.add('active');
-      var target=document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1));
-      if(target)target.classList.add('active');
-      /* Auto-scroll tab into view */
-      if(tabContainer){
-        var btnLeft=this.offsetLeft;
-        var btnWidth=this.offsetWidth;
-        var containerWidth=tabContainer.offsetWidth;
-        var scrollLeft=tabContainer.scrollLeft;
-        var scrollTo=btnLeft-(containerWidth/2)+(btnWidth/2);
-        tabContainer.scrollTo({left:scrollTo,behavior:'smooth'});
-      }
-      /* Load explore on first click */
-      if(tab==='explore'&&!exploreLoaded){loadExplore();exploreLoaded=true;}
+      switchTab(tab);
     });
+  }
+  /* Swipe gesture support for tab panels */
+  var pdWrap=document.getElementById('pdWrap');
+  if(pdWrap){
+    var startX=0,startY=0,swiping=false,swipeThreshold=50;
+    pdWrap.addEventListener('touchstart',function(e){
+      var t=e.touches[0];
+      startX=t.clientX;startY=t.clientY;swiping=true;
+    },{passive:true});
+    pdWrap.addEventListener('touchend',function(e){
+      if(!swiping)return;swiping=false;
+      var t=e.changedTouches[0];
+      var diffX=t.clientX-startX;
+      var diffY=t.clientY-startY;
+      /* Only trigger if horizontal swipe > vertical and past threshold */
+      if(Math.abs(diffX)>swipeThreshold&&Math.abs(diffX)>Math.abs(diffY)*1.5){
+        /* Find current active tab */
+        var activeBtn=document.querySelector('.pd-tab-btn.active');
+        var currentTab=activeBtn?activeBtn.getAttribute('data-tab'):'detail';
+        var idx=tabOrder.indexOf(currentTab);
+        if(diffX<0&&idx<tabOrder.length-1){
+          /* Swipe left → next tab */
+          switchTab(tabOrder[idx+1]);
+        }else if(diffX>0&&idx>0){
+          /* Swipe right → previous tab */
+          switchTab(tabOrder[idx-1]);
+        }
+      }
+    },{passive:true});
   }
 }
 
