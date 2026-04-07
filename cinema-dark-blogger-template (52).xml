@@ -41,11 +41,11 @@
 --header-h:56px;--bnav-h:48px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-tap-highlight-color:transparent;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+html{width:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 
 
 
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden;position:relative;width:100%}
 body.bn-visible{padding-bottom:calc(var(--bnav-h) + 8px)}
 a{text-decoration:none;color:inherit;transition:var(--tr)}
 a:hover{color:var(--accent)}
@@ -56,7 +56,7 @@ ul,ol{list-style:none}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--card);border-radius:2px}
 ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
-.container{max-width:var(--max-w);margin:0 auto;padding:0 10px}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 10px;width:100%;overflow-x:hidden}
 
 /* ========== HEADER ========== */
 .site-header{background:rgba(10,10,18,.97);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1001;height:var(--header-h)}
@@ -291,7 +291,7 @@ body.post-page .container{padding:0}
 .footer-bottom p{color:var(--muted);font-size:11px}
 
 /* ========== SIDEBAR ========== */
-.main-layout{display:grid;grid-template-columns:1fr;gap:0;padding:0}
+.main-layout{display:grid;grid-template-columns:1fr;gap:0;padding:0;overflow:hidden}
 .sidebar{display:none}
 .sidebar-widget{background:var(--card);border-radius:var(--r2);border:1px solid var(--border);overflow:hidden}
 .sw-title{padding:12px 14px;font-size:13px;font-weight:700;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
