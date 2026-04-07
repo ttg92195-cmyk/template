@@ -204,8 +204,9 @@ body.post-page .container{padding:0}
 .genre-pill{padding:3px 10px;border-radius:4px;font-size:10px;font-weight:500;color:var(--txt2);background:rgba(255,255,255,.08);border:1px solid var(--border)}
 
 /* ========== POST DETAIL: Tabs ========== */
-.pd-tabs{display:flex;margin:16px 16px 0;padding:0;gap:0;border-bottom:1px solid var(--border)}
-.pd-tab-btn{flex:1;padding:12px 0;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;position:relative;transition:var(--tr);text-align:center}
+.pd-tabs{display:flex;margin:16px 0 0;padding:0;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch}
+.pd-tabs::-webkit-scrollbar{display:none}
+.pd-tab-btn{flex:1;min-width:max-content;padding:12px 20px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;position:relative;transition:var(--tr);text-align:center;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .pd-tab-btn:hover{color:var(--txt2)}
 .pd-tab-btn.active{color:var(--accent)}
 .pd-tab-btn.active::after{content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:3px;background:var(--accent);border-radius:3px 3px 0 0}
@@ -377,7 +378,7 @@ body.no-scroll{overflow:hidden}
 .skel-pills{display:flex;gap:6px;margin-top:4px}
 .skel-pill{height:22px;width:60px;background:var(--bg3);border-radius:4px;position:relative;overflow:hidden}
 .skel-pill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.05) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite}
-.skel-tabs{display:flex;margin:16px 16px 0;padding:0;gap:0;border-bottom:1px solid var(--border)}
+.skel-tabs{display:flex;margin:16px 0 0;padding:0;gap:0;border-bottom:1px solid var(--border);overflow:hidden}
 .skel-tab{flex:1;height:12px;margin:12px 0;background:var(--bg3);border-radius:6px;position:relative;overflow:hidden}
 .skel-tab::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.05) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite}
 .skel-content{padding:16px;display:flex;flex-direction:column;gap:10px}
@@ -404,8 +405,8 @@ body.no-scroll{overflow:hidden}
   body.post-page .pd-info-card{margin-left:24px;margin-right:24px}
   .pd-poster-thumb{width:120px;min-width:120px;height:180px}
   .pd-info-right h1{font-size:22px}
-  .pd-tabs{margin:20px 24px 0}
-  .pd-tab-btn{font-size:14px;padding:14px 0}
+  .pd-tabs{margin:20px 0 0}
+  .pd-tab-btn{font-size:14px;padding:14px 20px}
   .pd-tab-panel{padding:20px 24px}
   .section-header{padding:16px 0 10px}
   .section-header h2{font-size:18px}
@@ -461,7 +462,7 @@ body.no-scroll{overflow:hidden}
   .explore-title{font-size:9px}
   .section-header h2{font-size:14px}
   .view-all-link{font-size:11px}
-  .pd-tab-btn{font-size:12px;padding:10px 0}
+  .pd-tab-btn{font-size:12px;padding:10px 16px}
 }
 
 /* ===== Desktop: hide mobile nav ===== */
@@ -1221,6 +1222,7 @@ function buildPagination(url){
 function initTabs(){
   var tabBtns=document.querySelectorAll('.pd-tab-btn');
   var panels=document.querySelectorAll('.pd-tab-panel');
+  var tabContainer=document.querySelector('.pd-tabs');
   for(var i=0;i<tabBtns.length;i++){
     tabBtns[i].addEventListener('click',function(){
       var tab=this.getAttribute('data-tab');
@@ -1229,6 +1231,15 @@ function initTabs(){
       this.classList.add('active');
       var target=document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1));
       if(target)target.classList.add('active');
+      /* Auto-scroll tab into view */
+      if(tabContainer){
+        var btnLeft=this.offsetLeft;
+        var btnWidth=this.offsetWidth;
+        var containerWidth=tabContainer.offsetWidth;
+        var scrollLeft=tabContainer.scrollLeft;
+        var scrollTo=btnLeft-(containerWidth/2)+(btnWidth/2);
+        tabContainer.scrollTo({left:scrollTo,behavior:'smooth'});
+      }
       /* Load explore on first click */
       if(tab==='explore'&&!exploreLoaded){loadExplore();exploreLoaded=true;}
     });
