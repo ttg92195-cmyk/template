@@ -39,7 +39,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 21.0
+  Version: 22.0
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -52,10 +52,10 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
 --r:8px;--r2:12px;--r3:16px;
 --shadow:0 8px 32px rgba(0,0,0,.6);
 --tr:.3s ease;--max-w:1200px;
---header-h:56px;--bnav-h:60px;
+--header-h:56px;--bnav-h:56px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html{-webkit-tap-highlight-color:transparent;touch-action:manipulation;scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden;touch-action:manipulation}
 body.bn-visible{padding-bottom:var(--bnav-h)}
 a{text-decoration:none;color:inherit;transition:var(--tr)}
@@ -215,7 +215,7 @@ body.post-page .container{padding:0}
 .pd-tab-btn:hover{color:var(--txt2)}
 .pd-tab-btn.active{color:var(--accent)}
 .pd-tab-btn.active::after{content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:3px;background:var(--accent);border-radius:3px 3px 0 0}
-.pd-tab-panel{display:none;padding:16px}
+.pd-tab-panel{display:none;padding:16px 16px 24px}
 .pd-tab-panel.active{display:block}
 
 /* ========== POST DETAIL: Detail Tab ========== */
@@ -258,9 +258,9 @@ body.post-page .container{padding:0}
 /* ========== POST DETAIL: Explore Tab ========== */
 .explore-heading{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--txt)}
 .explore-heading i{color:var(--accent)}
-.explore-scroll{display:flex;gap:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 20px;margin:0 -16px;padding-left:16px;padding-right:16px}
+.explore-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px}
 .explore-scroll::-webkit-scrollbar{display:none}
-.explore-card{min-width:150px;max-width:150px;flex-shrink:0;border-radius:var(--r2);overflow:hidden;background:var(--card);border:1px solid var(--border);transition:border-color .3s ease,transform .3s ease;cursor:pointer;contain:layout style paint}
+.explore-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);transition:border-color .3s ease,transform .3s ease;cursor:pointer;contain:layout style paint}
 .explore-card:hover{border-color:rgba(255,64,129,.3);transform:translateY(-3px);box-shadow:var(--shadow)}
 .explore-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3)}
 .explore-poster img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
@@ -277,8 +277,8 @@ body.post-page .container{padding:0}
 
 /* ========== BOTTOM NAV ========== */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--bnav-h);background:rgba(10,10,18,.97);border-top:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom)}
-.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:10px;font-weight:500;cursor:pointer;transition:var(--tr);padding:6px 12px;border:none;background:none}
-.bn-item i{font-size:18px;transition:var(--tr)}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted);font-size:9px;font-weight:500;cursor:pointer;transition:var(--tr);padding:6px 10px;border:none;background:none}
+.bn-item i{font-size:17px;transition:var(--tr)}
 .bn-item:hover{color:var(--accent)}
 .bn-item.active{color:var(--accent)}
 .bn-item.active i{transform:scale(1.1)}
@@ -410,14 +410,14 @@ body.no-scroll{overflow:hidden}
   .pd-info-right h1{font-size:22px}
   .pd-tabs{margin:20px 24px 0}
   .pd-tab-btn{font-size:14px;padding:14px 0}
-  .pd-tab-panel{padding:20px 24px}
+  .pd-tab-panel{padding:20px 24px 28px}
   .section-header{padding:16px 0 10px}
   .section-header h2{font-size:18px}
   .view-all-link{font-size:13px}
   .grid-info{height:56px;padding:10px}
   .grid-title{font-size:13px}
   .grid-year{font-size:11px}
-  .explore-card{min-width:160px;max-width:160px}
+  .explore-scroll{grid-template-columns:repeat(3,1fr);gap:14px}
   .pagination a,.pagination span{min-width:40px;height:40px;font-size:14px}
 }
 
@@ -439,8 +439,8 @@ body.no-scroll{overflow:hidden}
   .pd-info-right h1{font-size:16px}
   .footer-grid{grid-template-columns:1fr}
   .container{padding:0 10px}
-  .explore-card{min-width:140px;max-width:140px}
-  .explore-info{padding:7px 8px}
+  .explore-scroll{grid-template-columns:repeat(2,1fr);gap:10px}
+  .explore-info{padding:6px 8px}
   .explore-title{font-size:11px}
   .grid-card:hover{transform:none}
   .post-grid{grid-template-columns:repeat(3,1fr)}
@@ -461,7 +461,7 @@ body.no-scroll{overflow:hidden}
   .grid-info{height:44px;padding:6px}
   .post-grid{grid-template-columns:repeat(3,1fr);gap:8px}
   .home-skeleton .skel-grid{grid-template-columns:repeat(3,1fr);gap:8px}
-  .explore-card{min-width:130px;max-width:130px}
+  .explore-scroll{grid-template-columns:repeat(2,1fr);gap:8px}
   .explore-title{font-size:10px}
   .section-header h2{font-size:14px}
   .view-all-link{font-size:11px}
@@ -1712,7 +1712,7 @@ function loadExplore(){
     return;
   }
   c.innerHTML='<div style="flex:1;text-align:center;padding:30px;color:var(--muted);font-size:12px"><i class="fas fa-spinner fa-spin" style="font-size:20px;margin-bottom:8px;display:block"></i>Loading...</div>';
-  var feedUrl=window.location.origin+'/feeds/posts/default/-/'+encodeURIComponent(feedLabel)+'?max-results=10&alt=json';
+  var feedUrl=window.location.origin+'/feeds/posts/default/-/'+encodeURIComponent(feedLabel)+'?max-results=8&alt=json';
   var currentUrl=window.location.href.replace(/\/$/, '').replace(/\?m=1$/,'').replace(/\?m=0$/,'');
   fetch(feedUrl).then(function(r){return r.json();}).then(function(d){
     if(!d.feed||!d.feed.entry){
@@ -1722,7 +1722,7 @@ function loadExplore(){
     var h='';
     var count=0;
     d.feed.entry.forEach(function(e){
-      if(count>=10)return;
+      if(count>=6)return;
       var t=e.title.$t,l='',img=PLACEHOLDER;
       e.link.forEach(function(k){if(k.rel==='alternate')l=k.href;});
       if(e.media$thumbnail)img=e.media$thumbnail.url.replace('/s72-c/','/w300-h450-c/');
