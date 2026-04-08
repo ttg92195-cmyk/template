@@ -39,7 +39,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 23.1
+  Version: 23.2
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -55,7 +55,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
 --header-h:56px;--bnav-h:50px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-tap-highlight-color:transparent;touch-action:manipulation;scroll-behavior:smooth}
+html{-webkit-tap-highlight-color:transparent;touch-action:manipulation;scroll-behavior:smooth;overflow-x:hidden;width:100%}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden;touch-action:manipulation}
 body.bn-visible{padding-bottom:calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px))}
 a{text-decoration:none;color:inherit;transition:var(--tr)}
@@ -276,7 +276,7 @@ body.post-page .container{padding:0}
 .pd-body-raw{display:none!important}
 
 /* ========== BOTTOM NAV ========== */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--bnav-h);background:rgba(10,10,18,.97);border-top:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-around;will-change:transform;transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;width:100%;max-width:100vw;height:var(--bnav-h);background:rgba(10,10,18,.97);border-top:1px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-around;box-sizing:border-box;will-change:transform;transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .bn-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:var(--muted);font-size:9px;font-weight:500;cursor:pointer;transition:color .2s ease;padding:0 8px;border:none;background:none;-webkit-tap-highlight-color:transparent}
 .bn-item i{font-size:15px;transition:var(--tr)}
 .bn-item:hover{color:var(--accent)}
