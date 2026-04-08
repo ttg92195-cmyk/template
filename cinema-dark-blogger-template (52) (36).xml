@@ -39,7 +39,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 25.1
+  Version: 25.2
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -1205,16 +1205,16 @@ function renderBookmarks(){
   for(var i=0;i<bm.length;i++){
     var p=bm[i];
     var imgSrc=p.img||PLACEHOLDER;
-    html+='<a href="'+p.url+'" class="page-card">';
-    html+='<div class="page-card-poster"><img src="" data-src="'+imgSrc+'" alt="'+p.title+'" onerror="this.src=\''+PLACEHOLDER+'\'" decoding="async"/>';
+    var safeUrl=p.url.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    html+='<a href="'+safeUrl+'" class="page-card">';
+    html+='<div class="page-card-poster"><img src="'+imgSrc+'" alt="'+p.title+'" onerror="this.src=\''+PLACEHOLDER+'\'" decoding="async"/>';
     if(p.rating&&p.rating!=='--')html+='<span class="page-card-rating"><i class="fas fa-star"></i> '+p.rating+'</span>';
-    html+='<button class="page-card-remove" onclick="event.preventDefault();event.stopPropagation();removeBookmarkItem(\''+p.url.replace(/'/g,"\\'")+'\')"><i class="fas fa-times"></i></button>';
     html+='</div><div class="page-card-info"><div class="page-card-title">'+p.title+'</div>';
     if(p.year)html+='<div class="page-card-meta">'+p.year+'</div>';
     html+='</div></a>';
   }
   bookmarkGrid.innerHTML=html;
-  lazyLoadPageCards(bookmarkGrid);
+  initPageCardImages(bookmarkGrid);
 }
 
 /* ===== Render Recent Grid ===== */
@@ -1228,16 +1228,16 @@ function renderRecent(){
   for(var i=0;i<rc.length;i++){
     var p=rc[i];
     var imgSrc=p.img||PLACEHOLDER;
-    html+='<a href="'+p.url+'" class="page-card">';
-    html+='<div class="page-card-poster"><img src="" data-src="'+imgSrc+'" alt="'+p.title+'" onerror="this.src=\''+PLACEHOLDER+'\'" decoding="async"/>';
+    var safeUrl=p.url.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    html+='<a href="'+safeUrl+'" class="page-card">';
+    html+='<div class="page-card-poster"><img src="'+imgSrc+'" alt="'+p.title+'" onerror="this.src=\''+PLACEHOLDER+'\'" decoding="async"/>';
     if(p.rating&&p.rating!=='--')html+='<span class="page-card-rating"><i class="fas fa-star"></i> '+p.rating+'</span>';
-    html+='<button class="page-card-remove" onclick="event.preventDefault();event.stopPropagation();removeRecentItem(\''+p.url.replace(/'/g,"\\'")+'\')"><i class="fas fa-times"></i></button>';
     html+='</div><div class="page-card-info"><div class="page-card-title">'+p.title+'</div>';
     if(p.year)html+='<div class="page-card-meta">'+p.year+'</div>';
     html+='</div></a>';
   }
   recentGrid.innerHTML=html;
-  lazyLoadPageCards(recentGrid);
+  initPageCardImages(recentGrid);
 }
 
 /* Remove single item */
@@ -1252,18 +1252,16 @@ function removeRecentItem(url){
 if(bookmarkClearAll)bookmarkClearAll.addEventListener('click',function(){saveBookmarks([]);renderBookmarks();});
 if(recentClearAll)recentClearAll.addEventListener('click',function(){saveRecent([]);renderRecent();});
 
-/* Lazy load images inside page cards */
-function lazyLoadPageCards(container){
+/* Init images: add loaded class for shimmer removal */
+function initPageCardImages(container){
   if(!container)return;
-  var imgs=container.querySelectorAll('img[data-src]');
+  var imgs=container.querySelectorAll('img');
   for(var i=0;i<imgs.length;i++){
     (function(img){
-      if(img.src&&img.src!=='')return;
-      var src=img.getAttribute('data-src');
-      if(!src||src.indexOf('data:')===0)return;
-      img.src=src;
-      img.onload=function(){img.classList.add('loaded');};
-      img.onerror=function(){img.src=PLACEHOLDER;img.classList.add('loaded');};
+      function markLoaded(){img.classList.add('loaded');}
+      if(img.complete&&img.naturalWidth>0){markLoaded();return;}
+      img.addEventListener('load',markLoaded,{once:true});
+      img.addEventListener('error',function(){img.src=PLACEHOLDER;markLoaded();},{once:true});
     })(imgs[i]);
   }
 }
