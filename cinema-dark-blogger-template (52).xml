@@ -489,6 +489,7 @@ body.no-scroll{overflow:hidden}
 
 <body>
 <b:class cond='data:blog.pageType == &quot;item&quot;' name='post-page'/>
+<b:class cond='data:blog.pageType == &quot;error_page&quot;' name='post-page'/>
 
 <a class='back-top' href='#' id='backTop'><i class='fas fa-chevron-up'></i></a>
 
@@ -571,7 +572,7 @@ body.no-scroll{overflow:hidden}
               </b:if>
 
               <!-- ========== HOMEPAGE / LABEL / SEARCH ========== -->
-              <b:if cond='data:blog.pageType != &quot;item&quot;'>
+              <b:if cond='data:blog.pageType != &quot;item&quot; and data:blog.pageType != &quot;error_page&quot;'>
                 <div class='home-area' id='homeArea'>
                   <div id='postStore' class='hidden-el'>
                     <b:loop values='data:posts' var='post'>
