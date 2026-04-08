@@ -39,7 +39,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 25.3
+  Version: 25.7
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -325,14 +325,15 @@ body.post-page .container{padding:0}
 .empty-msg small{font-size:11px;color:var(--muted)}
 
 /* ========== 404 ERROR PAGE ========== */
-.error-404{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;padding:40px 24px;text-align:center}
-.error-404-icon{font-size:100px;font-weight:900;color:var(--accent);line-height:1;margin-bottom:16px;text-shadow:0 0 60px var(--accent-glow),0 0 120px rgba(255,64,129,.1);position:relative}
-.error-404-icon::after{content:'';position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(255,64,129,.08) 0%,transparent 70%);z-index:-1}
-.error-404 h2{font-size:22px;font-weight:700;color:var(--txt);margin-bottom:10px}
-.error-404 p{font-size:14px;color:var(--txt2);line-height:1.7;margin-bottom:28px;max-width:340px}
-.error-404-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:var(--accent);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--tr);box-shadow:0 4px 20px var(--accent-glow);text-decoration:none}
-.error-404-btn:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 6px 30px var(--accent-glow)}
-.error-404-btn i{font-size:13px}
+.no-results-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px 40px;text-align:center}
+.no-results-wrap.show{display:flex}
+.no-results-icon{font-size:80px;font-weight:900;color:var(--accent);line-height:1;margin-bottom:12px;text-shadow:0 0 60px var(--accent-glow),0 0 120px rgba(255,64,129,.1);position:relative}
+.no-results-icon::after{content:'';position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(255,64,129,.08) 0%,transparent 70%);z-index:-1}
+.no-results-title{font-size:22px;font-weight:800;color:var(--txt);margin-bottom:8px}
+.no-results-sub{font-size:14px;color:var(--txt2);line-height:1.7;margin-bottom:24px;max-width:340px}
+.no-results-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:var(--accent);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--tr);box-shadow:0 4px 20px var(--accent-glow);text-decoration:none}
+.no-results-btn:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 6px 30px var(--accent-glow)}
+.no-results-btn i{font-size:13px}
 
 /* ========== BOOKMARK & RECENT PAGES ========== */
 .page-overlay{position:fixed;inset:0;top:var(--header-h);bottom:var(--bnav-h);background:var(--bg);z-index:500;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;will-change:transform;transform:translateZ(0)}
@@ -396,6 +397,25 @@ body.post-page .container{padding:0}
 .post-body img{border-radius:var(--r);margin:8px 0}
 .post-body br{display:block;content:'';margin-top:4px}
 
+/* ========== STATIC PAGE (Clean Layout) ========== */
+body.static-page .site-header{display:block}
+body.static-page .container{padding:0 16px}
+.sp-wrap{max-width:800px;margin:0 auto;padding:70px 0 80px}
+.sp-title{font-size:24px;font-weight:800;color:var(--txt);margin-bottom:16px;line-height:1.4}
+.sp-body{font-size:15px;line-height:1.9;color:var(--txt2)}
+.sp-body img{border-radius:var(--r2);margin:12px 0;max-width:100%;height:auto}
+.sp-body a{color:var(--accent);text-decoration:underline}
+.sp-body h2,.sp-body h3,.sp-body h4{color:var(--txt);margin:20px 0 10px;font-weight:700}
+.sp-body p{margin-bottom:14px}
+.sp-body ul,.sp-body ol{margin:10px 0 14px 24px}
+.sp-body li{margin-bottom:6px}
+.sp-body table{width:100%;border-collapse:collapse;margin:14px 0}
+.sp-body td,.sp-body th{padding:10px 14px;border:1px solid var(--border);font-size:14px}
+.sp-body blockquote{border-left:3px solid var(--accent);padding:10px 16px;margin:14px 0;background:var(--bg3);border-radius:0 var(--r) var(--r) 0;color:var(--txt2)}
+body.static-page .site-footer{display:block}
+body.static-page .bottom-nav{display:flex}
+body.static-page .main-layout{grid-template-columns:1fr;padding:0;gap:0}
+
 /* ========== HIDE BLOGGER DEFAULTS ========== */
 body.post-page .main-layout{grid-template-columns:1fr;padding:0;gap:0}
 body.post-page .main-content{padding:0}
@@ -406,18 +426,21 @@ body.post-page .site-footer{display:none}
 .blog-posts{display:none!important}
 .blog-pager,.widget .blog-pager,.feed-links,.blog-feeds{display:none!important}
 .status-msg-wrap,.status-msg-body,.status-msg-border{display:none!important}
-body:not(.post-page) .post-outer-container{display:none!important}
-body:not(.post-page) .post-footer{display:none!important}
-body:not(.post-page) .post-share-buttons{display:none!important}
-body:not(.post-page) .post-comment-link{display:none!important}
-body:not(.post-page) .post-timestamp{display:none!important}
-body:not(.post-page) .post-title{display:none!important}
-body:not(.post-page) .post-body{display:none!important}
-body:not(.post-page) .post-header{display:none!important}
-body:not(.post-page) .entry-content{display:none!important}
-body:not(.post-page) .post-snippet{display:none!important}
-body:not(.post-page) .post-summary{display:none!important}
-body:not(.post-page) .comment-link{display:none!important}
+body:not(.post-page):not(.static-page) .post-outer-container{display:none!important}
+body:not(.post-page):not(.static-page) .post-footer{display:none!important}
+body:not(.post-page):not(.static-page) .post-share-buttons{display:none!important}
+body:not(.post-page):not(.static-page) .post-comment-link{display:none!important}
+body:not(.post-page):not(.static-page) .post-timestamp{display:none!important}
+body:not(.post-page):not(.static-page) .post-title{display:none!important}
+body:not(.post-page):not(.static-page) .post-body{display:none!important}
+body:not(.post-page):not(.static-page) .post-header{display:none!important}
+body:not(.post-page):not(.static-page) .entry-content{display:none!important}
+body:not(.post-page):not(.static-page) .post-snippet{display:none!important}
+body:not(.post-page):not(.static-page) .post-summary{display:none!important}
+body:not(.post-page):not(.static-page) .comment-link{display:none!important}
+/* Static page: hide default Blogger wrapper but keep sp-wrap content */
+body.static-page .post-outer-container{display:none!important}
+body.static-page .post-outer-container .post-body{display:none!important}
 .widget ul{list-style:none}
 #comments{background:none}
 body.no-scroll{overflow:hidden}
@@ -535,7 +558,8 @@ body.no-scroll{overflow:hidden}
 </head>
 
 <body>
-<b:class cond='data:blog.pageType == &quot;item&quot;' name='post-page'/>
+<b:class cond='data:blog.pageType == &quot;item&quot; and data:blog.pageType != &quot;static_page&quot;' name='post-page'/>
+<b:class cond='data:blog.pageType == &quot;static_page&quot;' name='static-page'/>
 
 <a class='back-top' href='#' id='backTop'><i class='fas fa-chevron-up'></i></a>
 
@@ -610,15 +634,24 @@ body.no-scroll{overflow:hidden}
           <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2' visible='true'>
             <b:includable id='main' var='this'>
 
-              <!-- ========== POST DETAIL PAGE ========== -->
+              <!-- ========== POST DETAIL PAGE (Posts only, NOT static pages) ========== -->
               <b:if cond='data:blog.pageType == &quot;item&quot;'>
                 <b:loop values='data:posts' var='post'>
-                  <b:include data='post' name='postDetail'/>
+                  <b:if cond='data:post.isStaticPage != true'>
+                    <b:include data='post' name='postDetail'/>
+                  </b:if>
                 </b:loop>
               </b:if>
 
-              <!-- ========== HOMEPAGE / LABEL / SEARCH ========== -->
-              <b:if cond='data:blog.pageType != &quot;item&quot;'>
+              <!-- ========== STATIC PAGES (Clean layout) ========== -->
+              <b:if cond='data:blog.pageType == &quot;static_page&quot;'>
+                <b:loop values='data:posts' var='post'>
+                  <b:include data='post' name='staticPage'/>
+                </b:loop>
+              </b:if>
+
+              <!-- ========== HOMEPAGE / LABEL / SEARCH (not item, not static_page) ========== -->
+              <b:if cond='data:blog.pageType != &quot;item&quot; and data:blog.pageType != &quot;static_page&quot;'>
                 <div class='home-area' id='homeArea'>
                   <div id='postStore' class='hidden-el'>
                     <b:loop values='data:posts' var='post'>
@@ -667,23 +700,26 @@ body.no-scroll{overflow:hidden}
                   </div>
                   <!-- Sections will be built by JS -->
                   <div id='homeSections'></div>
-                  <b:if cond='data:posts.empty'>
-                    <div class='empty-msg'>
-                      <i class='fas fa-film'></i> No posts yet.
-                      <br/><small>Create posts with Movie or Series label.</small>
-                    </div>
-                  </b:if>
+                  <!-- No Results / 404 (shown by JS when 0 posts) -->
+                  <div class='no-results-wrap' id='noResults'>
+                    <div class='no-results-icon'>404</div>
+                    <div class='no-results-title'>Oops! Page Not Found</div>
+                    <div class='no-results-sub'>The page you are looking for doesn't exist or no results matched your search. Try searching again or go back home.</div>
+                    <a class='no-results-btn' expr:href='data:blog.homepageUrl'>
+                      <i class='fas fa-home'></i> Go Home
+                    </a>
+                  </div>
                   <div id='homePagination'></div>
                 </div>
               </b:if>
 
-              <!-- ========== 404 ERROR PAGE ========== -->
+              <!-- ========== 404 ERROR PAGE (Blogger server-side) ========== -->
               <b:if cond='data:blog.pageType == &quot;error_page&quot;'>
-                <div class='error-404'>
-                  <div class='error-404-icon'>404</div>
-                  <h2>Page Not Found</h2>
-                  <p>The page you are looking for does not exist or has been moved. Go back to the homepage to explore more movies and series.</p>
-                  <a class='error-404-btn' expr:href='data:blog.homepageUrl'>
+                <div class='no-results-wrap show error-view'>
+                  <div class='no-results-icon'>404</div>
+                  <div class='no-results-title'>Oops! Page Not Found</div>
+                  <div class='no-results-sub'>The page you are looking for doesn't exist or has been moved. Go back to the homepage to explore more movies and series.</div>
+                  <a class='no-results-btn' expr:href='data:blog.homepageUrl'>
                     <i class='fas fa-home'></i> Go Home
                   </a>
                 </div>
@@ -815,6 +851,14 @@ body.no-scroll{overflow:hidden}
             </b:includable>
 
             <b:includable id='post' var='post'></b:includable>
+
+            <!-- ========== STATIC PAGE (Clean Layout) ========== -->
+            <b:includable id='staticPage' var='post'>
+              <div class='sp-wrap'>
+                <h1 class='sp-title'><data:post.title/></h1>
+                <div class='sp-body'><data:post.body/></div>
+              </div>
+            </b:includable>
 
             <b:includable id='comments' var='post'>
               <div class='comments-block'>
@@ -1080,7 +1124,7 @@ function saveBookmarks(bm){try{localStorage.setItem(BM_KEY,JSON.stringify(bm));}
 function getRecent(){try{return JSON.parse(localStorage.getItem(RC_KEY))||[];}catch(e){return[];}}
 function saveRecent(rc){try{localStorage.setItem(RC_KEY,JSON.stringify(rc));}catch(e){}}
 
-/* Get reliable post data from server-rendered hidden spans */
+/* Get reliable post data - prioritize Poster (portrait) over Featured/Cover (backdrop) */
 function getPostData(){
   var urlEl=document.getElementById('pdDataUrl');
   var imgEl=document.getElementById('pdDataImg');
@@ -1090,10 +1134,11 @@ function getPostData(){
   var dateEl=document.getElementById('pdDataDate');
   var posterEl=document.getElementById('pdPosterImg');
   var url=(urlEl?urlEl.textContent.trim():'')||window.location.href.replace(/\/$/,'').replace(/\?m=1$/,'').replace(/\?m=0$/,'');
-  /* Use server-rendered featured image first, fallback to poster element src */
+  /* Priority 1: Poster element src (extracted from <h2>Poster</h2> in post body) */
   var img='';
-  if(imgEl)img=imgEl.textContent.trim();
-  if(!img&&posterEl){var ps=posterEl.src||'';if(ps&&ps.indexOf('data:')!==0)img=ps;}
+  if(posterEl){var ps=posterEl.src||'';if(ps&&ps.indexOf('data:')!==0&&ps.indexOf('about:blank')!==0)img=ps;}
+  /* Priority 2: Server-rendered featured image (may be cover/backdrop, only use if no poster) */
+  if(!img&&imgEl){var fi=imgEl.textContent.trim();if(fi)img=fi;}
   return{
     url:url,
     title:titleEl?(titleEl.textContent||'').trim():'Untitled',
@@ -1108,7 +1153,19 @@ function isBookmarked(url){var bm=getBookmarks();for(var i=0;i<bm.length;i++){if
 
 function addBookmark(item){
   var bm=getBookmarks();
-  for(var i=0;i<bm.length;i++){if(bm[i].url===item.url)return;}
+  /* Update Existing: if already bookmarked, update poster/data and keep original position */
+  for(var i=0;i<bm.length;i++){
+    if(bm[i].url===item.url){
+      if(item.img&&item.img!==bm[i].img)bm[i].img=item.img;
+      if(item.title&&item.title!=='Untitled')bm[i].title=item.title;
+      if(item.rating)bm[i].rating=item.rating;
+      if(item.year)bm[i].year=item.year;
+      bm[i].time=item.time||Date.now();
+      saveBookmarks(bm);
+      return;
+    }
+  }
+  /* New bookmark: add to top */
   bm.unshift(item);
   if(bm.length>100)bm.pop();
   saveBookmarks(bm);
@@ -1123,10 +1180,25 @@ function removeBookmark(url){
 
 function addRecent(item){
   var rc=getRecent();
-  var nrc=[item];
-  for(var i=0;i<rc.length;i++){if(rc[i].url!==item.url)nrc.push(rc[i]);}
-  if(nrc.length>MAX_RECENT)nrc.length=MAX_RECENT;
-  saveRecent(nrc);
+  /* Update Existing: if already in recent, update poster/data and move to top */
+  for(var i=0;i<rc.length;i++){
+    if(rc[i].url===item.url){
+      var existing=rc.splice(i,1)[0];
+      if(item.img&&item.img!==existing.img)existing.img=item.img;
+      if(item.title&&item.title!=='Untitled')existing.title=item.title;
+      if(item.rating)existing.rating=item.rating;
+      if(item.year)existing.year=item.year;
+      existing.time=item.time||Date.now();
+      rc.unshift(existing);
+      if(rc.length>MAX_RECENT)rc.length=MAX_RECENT;
+      saveRecent(rc);
+      return;
+    }
+  }
+  /* New recent: add to top */
+  rc.unshift(item);
+  if(rc.length>MAX_RECENT)rc.length=MAX_RECENT;
+  saveRecent(rc);
 }
 
 /* Heart button: toggle bookmark + save recent on post detail view */
@@ -1149,11 +1221,6 @@ if(heartBtn){
       removeBookmark(data.url);
     }
   });
-  /* Auto-save to recent when viewing post detail (delay slightly for DOM) */
-  setTimeout(function(){
-    var data=getPostData();
-    if(data.title&&data.title!=='Untitled'){addRecent(data);}
-  },1500);
 }
 
 /* ===== Bookmark/Recent Page Navigation ===== */
@@ -1170,28 +1237,61 @@ var recentCountEl=document.getElementById('recentCount');
 var bookmarkClearAll=document.getElementById('bookmarkClearAll');
 var recentClearAll=document.getElementById('recentClearAll');
 
+/* ===== Unified Bottom Nav Controller ===== */
+var allNavItems=document.querySelectorAll('.bn-item');
+
+function resetAllNav(){
+  /* State Reset: remove active from ALL nav items */
+  for(var i=0;i<allNavItems.length;i++){allNavItems[i].classList.remove('active');}
+  /* Close ALL overlay pages */
+  if(bookmarkPage)bookmarkPage.style.display='none';
+  if(recentPage)recentPage.style.display='none';
+  document.body.classList.remove('no-scroll');
+}
+
+function setActiveNav(page){
+  /* State Reset first */
+  resetAllNav();
+  /* Direct Navigation: set active on the target item */
+  for(var i=0;i<allNavItems.length;i++){
+    if(allNavItems[i].getAttribute('data-page')===page){
+      allNavItems[i].classList.add('active');
+      break;
+    }
+  }
+}
+
 function openBookmarkPage(){
   if(!bookmarkPage)return;
+  /* State Reset: close Recent if open, reset all active states */
+  resetAllNav();
+  /* Direct Navigation: open Bookmark & set active */
   bookmarkPage.style.display='block';
   bookmarkPage.scrollTop=0;
   renderBookmarks();
-  if(bnBookmark)bnBookmark.classList.add('active');
+  bnBookmark.classList.add('active');
   document.body.classList.add('no-scroll');
 }
+
 function closeBookmarkPage(){
   if(!bookmarkPage)return;
   bookmarkPage.style.display='none';
   if(bnBookmark)bnBookmark.classList.remove('active');
   document.body.classList.remove('no-scroll');
 }
+
 function openRecentPage(){
   if(!recentPage)return;
+  /* State Reset: close Bookmark if open, reset all active states */
+  resetAllNav();
+  /* Direct Navigation: open Recent & set active */
   recentPage.style.display='block';
   recentPage.scrollTop=0;
   renderRecent();
-  if(bnRecent)bnRecent.classList.add('active');
+  bnRecent.classList.add('active');
   document.body.classList.add('no-scroll');
 }
+
 function closeRecentPage(){
   if(!recentPage)return;
   recentPage.style.display='none';
@@ -1340,8 +1440,24 @@ function buildHomepage(){
 
   var url=window.location.href;
   var isHomepage=url.indexOf('/search/')===-1&&url.indexOf('/p/')===-1;
+  var isSearch=url.indexOf('/search')!==-1;
   var container=document.getElementById('homeSections');
+  var noResults=document.getElementById('noResults');
   if(!container)return;
+
+  /* Search Logic Fix: if search/label returns 0 posts, show 404 */
+  if(isSearch&&posts.length===0){
+    var homeSkel=document.getElementById('homeSkeleton');
+    if(homeSkel)homeSkel.classList.add('hide');
+    if(container)container.innerHTML='';
+    /* Clear any existing 404/error elements first */
+    var existingErr=document.querySelectorAll('.no-results-wrap.show');
+    for(var e=0;e<existingErr.length;e++)existingErr[e].classList.remove('show');
+    /* Show #noResults only if server-side .error-view doesn't already exist */
+    if(noResults&&!document.querySelector('.error-view'))noResults.classList.add('show');
+    return;
+  }
+
   var html='';
 
   function getPostRating(labels){for(var r=0;r<labels.length;r++){var rt=getRating(labels[r]);if(rt)return rt;}return null;}
@@ -1414,9 +1530,10 @@ function buildHomepage(){
     html+='</div>';
   }
   container.innerHTML=html;
-  /* Hide homepage skeleton */
+  /* Hide homepage skeleton + hide no-results (we have content) */
   var homeSkel=document.getElementById('homeSkeleton');
   if(homeSkel)homeSkel.classList.add('hide');
+  if(noResults)noResults.classList.remove('show');
   /* Build pagination for label/search pages */
   if(!isHomepage){
     buildPagination(url, posts.length);
@@ -1607,6 +1724,12 @@ function applyPostMeta(labels){
 
   /* Extract Cover & Poster URLs from post body */
   extractCoverPoster();
+
+  /* Auto-save to recent AFTER poster is extracted (ensures correct poster image) */
+  setTimeout(function(){
+    var data=getPostData();
+    if(data.title&&data.title!=='Untitled'){addRecent(data);}
+  },800);
 
   /* Parse post body for tabs */
   parsePostBody();
@@ -2050,14 +2173,10 @@ function loadExplore(){
 /* ===== Bottom Nav Active State ===== */
 (function(){
   var url=window.location.href;
-  var bns=document.querySelectorAll('.bn-item');
-  for(var i=0;i<bns.length;i++){
-    bns[i].classList.remove('active');
-    var pg=bns[i].getAttribute('data-page');
-    if(pg==='home'&&url.indexOf('/search/')===-1&&url.indexOf('/p/')===-1)bns[i].classList.add('active');
-    if(url.indexOf('/search/label/Movie')!==-1&&pg==='movies')bns[i].classList.add('active');
-    if(url.indexOf('/search/label/Series')!==-1&&pg==='series')bns[i].classList.add('active');
-  }
+  var pg='home';
+  if(url.indexOf('/search/label/Movie')!==-1)pg='movies';
+  else if(url.indexOf('/search/label/Series')!==-1)pg='series';
+  setActiveNav(pg);
 })();
 
 /* ===== Clean Blogger Defaults ===== */
@@ -2073,9 +2192,26 @@ function cleanBlogger(){
 function init(){
   injectCSS();
   cleanBlogger();
-  buildHomepage();
-  processPostDetail();
-  initTabs();
+  /* Skip post-detail logic on static pages */
+  var isStatic=document.body.classList.contains('static-page');
+  if(!isStatic){
+    buildHomepage();
+    processPostDetail();
+    initTabs();
+    /* Skeleton Timeout: force-hide skeleton after 3 seconds if still visible */
+    setTimeout(function(){
+      var skel=document.getElementById('homeSkeleton');
+      if(skel&&!skel.classList.contains('hide')){
+        skel.classList.add('hide');
+        /* If no content was built, show 404 (only if server-side .error-view doesn't exist) */
+        var sec=document.getElementById('homeSections');
+        var nr=document.getElementById('noResults');
+        if(sec&&sec.innerHTML.trim()===''){
+          if(nr&&!document.querySelector('.error-view'))nr.classList.add('show');
+        }
+      }
+    },3000);
+  }
   /* Bottom nav padding */
   if(window.innerWidth<=768)document.body.classList.add('bn-visible');
   window.addEventListener('resize',function(){
