@@ -39,7 +39,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 25.2
+  Version: 25.3
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -335,8 +335,8 @@ body.post-page .container{padding:0}
 .error-404-btn i{font-size:13px}
 
 /* ========== BOOKMARK & RECENT PAGES ========== */
-.page-overlay{position:fixed;inset:0;top:var(--header-h);bottom:var(--bnav-h);background:var(--bg);z-index:500;overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;will-change:transform;transform:translateZ(0)}
-.page-overlay.active{opacity:1;visibility:visible}
+.page-overlay{position:fixed;inset:0;top:var(--header-h);bottom:var(--bnav-h);background:var(--bg);z-index:500;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;will-change:transform;transform:translateZ(0)}
+.page-overlay.active{display:block}
 .page-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;position:sticky;top:0;background:rgba(10,10,18,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:10;border-bottom:1px solid var(--border)}
 .page-header-left{display:flex;align-items:center;gap:10px}
 .page-header-back{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border);border-radius:50%;color:var(--txt2);font-size:14px;cursor:pointer;transition:var(--tr)}
@@ -996,10 +996,10 @@ body.no-scroll{overflow:hidden}
   <button class='bn-item' data-page='series' onclick='window.location.href=window.location.origin+&quot;/search/label/Series&quot;'>
     <i class='fas fa-tv'></i><span>Series</span>
   </button>
-  <button class='bn-item' data-page='bookmark' id='bnBookmark'>
+  <button class='bn-item' data-page='bookmark' id='bnBookmark' type='button'>
     <i class='fas fa-bookmark'></i><span>Save</span>
   </button>
-  <button class='bn-item' data-page='recent' id='bnRecent'>
+  <button class='bn-item' data-page='recent' id='bnRecent' type='button'>
     <i class='fas fa-clock-rotate-left'></i><span>History</span>
   </button>
 </nav>
@@ -1171,23 +1171,41 @@ var bookmarkClearAll=document.getElementById('bookmarkClearAll');
 var recentClearAll=document.getElementById('recentClearAll');
 
 function openBookmarkPage(){
-  if(bookmarkPage){bookmarkPage.classList.add('active');renderBookmarks();}
+  if(!bookmarkPage)return;
+  bookmarkPage.style.display='block';
+  bookmarkPage.scrollTop=0;
+  renderBookmarks();
   if(bnBookmark)bnBookmark.classList.add('active');
+  document.body.classList.add('no-scroll');
 }
 function closeBookmarkPage(){
-  if(bookmarkPage)bookmarkPage.classList.remove('active');
+  if(!bookmarkPage)return;
+  bookmarkPage.style.display='none';
   if(bnBookmark)bnBookmark.classList.remove('active');
-  bookmarkPage.scrollTop=0;
+  document.body.classList.remove('no-scroll');
 }
 function openRecentPage(){
-  if(recentPage){recentPage.classList.add('active');renderRecent();}
+  if(!recentPage)return;
+  recentPage.style.display='block';
+  recentPage.scrollTop=0;
+  renderRecent();
   if(bnRecent)bnRecent.classList.add('active');
+  document.body.classList.add('no-scroll');
 }
 function closeRecentPage(){
-  if(recentPage)recentPage.classList.remove('active');
+  if(!recentPage)return;
+  recentPage.style.display='none';
   if(bnRecent)bnRecent.classList.remove('active');
-  recentPage.scrollTop=0;
+  document.body.classList.remove('no-scroll');
 }
+
+/* Expose to global scope for inline onclick fallback */
+window.openBookmarkPage=openBookmarkPage;
+window.closeBookmarkPage=closeBookmarkPage;
+window.openRecentPage=openRecentPage;
+window.closeRecentPage=closeRecentPage;
+window.removeBookmarkItem=removeBookmarkItem;
+window.removeRecentItem=removeRecentItem;
 
 if(bnBookmark)bnBookmark.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openBookmarkPage();});
 if(bnRecent)bnRecent.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openRecentPage();});
