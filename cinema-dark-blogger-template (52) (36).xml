@@ -39,7 +39,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 25.0
+  Version: 25.1
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -806,6 +806,10 @@ body.no-scroll{overflow:hidden}
                 </div>
 
               </div>
+              <!-- Hidden post data for Bookmark/Recent (server-rendered, always available) -->
+              <span id='pdDataUrl' style='display:none'><data:post.url/></span>
+              <span id='pdDataImg' style='display:none'><b:if cond='data:post.featuredImage'><data:post.featuredImage/></b:if></span>
+              <span id='pdDataDate' style='display:none'><data:post.date/></span>
               <!-- Hidden post body for parsing (outside pdWrap for clean data separation) -->
               <textarea class='pd-body-raw' id='pdBodyRaw' style='display:none'><data:post.body/></textarea>
             </b:includable>
@@ -1076,6 +1080,30 @@ function saveBookmarks(bm){try{localStorage.setItem(BM_KEY,JSON.stringify(bm));}
 function getRecent(){try{return JSON.parse(localStorage.getItem(RC_KEY))||[];}catch(e){return[];}}
 function saveRecent(rc){try{localStorage.setItem(RC_KEY,JSON.stringify(rc));}catch(e){}}
 
+/* Get reliable post data from server-rendered hidden spans */
+function getPostData(){
+  var urlEl=document.getElementById('pdDataUrl');
+  var imgEl=document.getElementById('pdDataImg');
+  var titleEl=document.getElementById('pdTitle');
+  var ratingEl=document.getElementById('postRating');
+  var yearEl=document.getElementById('postYear');
+  var dateEl=document.getElementById('pdDataDate');
+  var posterEl=document.getElementById('pdPosterImg');
+  var url=(urlEl?urlEl.textContent.trim():'')||window.location.href.replace(/\/$/,'').replace(/\?m=1$/,'').replace(/\?m=0$/,'');
+  /* Use server-rendered featured image first, fallback to poster element src */
+  var img='';
+  if(imgEl)img=imgEl.textContent.trim();
+  if(!img&&posterEl){var ps=posterEl.src||'';if(ps&&ps.indexOf('data:')!==0)img=ps;}
+  return{
+    url:url,
+    title:titleEl?(titleEl.textContent||'').trim():'Untitled',
+    img:img,
+    rating:ratingEl?(ratingEl.textContent||'').trim():'',
+    year:yearEl?(yearEl.textContent||'').trim():(dateEl?extractYear(dateEl.textContent.trim()):''),
+    time:Date.now()
+  };
+}
+
 function isBookmarked(url){var bm=getBookmarks();for(var i=0;i<bm.length;i++){if(bm[i].url===url)return true;}return false;}
 
 function addBookmark(item){
@@ -1103,7 +1131,8 @@ function addRecent(item){
 
 /* Heart button: toggle bookmark + save recent on post detail view */
 if(heartBtn){
-  var _pdUrl=window.location.href.replace(/\/$/, '').replace(/\?m=1$/,'').replace(/\?m=0$/,'');
+  var _pdDataUrl=document.getElementById('pdDataUrl');
+  var _pdUrl=(_pdDataUrl?_pdDataUrl.textContent.trim():'')||window.location.href.replace(/\/$/,'').replace(/\?m=1$/,'').replace(/\?m=0$/,'');
   /* Check if already bookmarked */
   if(isBookmarked(_pdUrl)){
     var hi=heartBtn.querySelector('i');
@@ -1111,45 +1140,20 @@ if(heartBtn){
   }
   heartBtn.addEventListener('click',function(){
     var icon=this.querySelector('i');
-    var url=window.location.href.replace(/\/$/, '').replace(/\?m=1$/,'').replace(/\?m=0$/,'');
-    var titleEl=document.getElementById('pdTitle');
-    var posterEl=document.getElementById('pdPosterImg');
-    var ratingEl=document.getElementById('postRating');
-    var yearEl=document.getElementById('postYear');
-    var item={
-      url:url,
-      title:titleEl?(titleEl.textContent||'').trim():'Untitled',
-      img:posterEl?(posterEl.src||''):'',
-      rating:ratingEl?(ratingEl.textContent||'').trim():'',
-      year:yearEl?(yearEl.textContent||'').trim():'',
-      time:Date.now()
-    };
+    var data=getPostData();
     if(icon.classList.contains('far')){
       icon.classList.remove('far');icon.classList.add('fas');icon.style.color='var(--red)';
-      addBookmark(item);
+      addBookmark(data);
     }else{
       icon.classList.remove('fas');icon.classList.add('far');icon.style.color='';
-      removeBookmark(url);
+      removeBookmark(data.url);
     }
   });
-  /* Auto-save to recent when viewing post detail */
-  (function(){
-    var titleEl=document.getElementById('pdTitle');
-    var posterEl=document.getElementById('pdPosterImg');
-    var ratingEl=document.getElementById('postRating');
-    var yearEl=document.getElementById('postYear');
-    if(titleEl){
-      var item={
-        url:_pdUrl,
-        title:(titleEl.textContent||'').trim(),
-        img:posterEl?(posterEl.src||''):'',
-        rating:ratingEl?(ratingEl.textContent||'').trim():'',
-        year:yearEl?(yearEl.textContent||'').trim():'',
-        time:Date.now()
-      };
-      addRecent(item);
-    }
-  })();
+  /* Auto-save to recent when viewing post detail (delay slightly for DOM) */
+  setTimeout(function(){
+    var data=getPostData();
+    if(data.title&&data.title!=='Untitled'){addRecent(data);}
+  },1500);
 }
 
 /* ===== Bookmark/Recent Page Navigation ===== */
