@@ -39,7 +39,7 @@ document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastT
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 24.0
+  Version: 24.1
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -323,6 +323,16 @@ body.post-page .container{padding:0}
 .empty-msg{text-align:center;padding:30px 16px;color:var(--txt2)}
 .empty-msg i{font-size:32px;color:var(--muted);display:block;margin-bottom:10px}
 .empty-msg small{font-size:11px;color:var(--muted)}
+
+/* ========== 404 ERROR PAGE ========== */
+.error-404{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;padding:40px 24px;text-align:center}
+.error-404-icon{font-size:100px;font-weight:900;color:var(--accent);line-height:1;margin-bottom:16px;text-shadow:0 0 60px var(--accent-glow),0 0 120px rgba(255,64,129,.1);position:relative}
+.error-404-icon::after{content:'';position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(255,64,129,.08) 0%,transparent 70%);z-index:-1}
+.error-404 h2{font-size:22px;font-weight:700;color:var(--txt);margin-bottom:10px}
+.error-404 p{font-size:14px;color:var(--txt2);line-height:1.7;margin-bottom:28px;max-width:340px}
+.error-404-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:var(--accent);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--tr);box-shadow:0 4px 20px var(--accent-glow);text-decoration:none}
+.error-404-btn:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 6px 30px var(--accent-glow)}
+.error-404-btn i{font-size:13px}
 .back-top{position:fixed;bottom:calc(var(--bnav-h) + 14px);right:16px;width:38px;height:38px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;cursor:pointer;opacity:0;visibility:hidden;transition:var(--tr);z-index:999;box-shadow:0 4px 16px var(--accent-glow)}
 .back-top.visible{opacity:1;visibility:visible}
 .back-top:hover{background:var(--accent2);transform:translateY(-2px)}
@@ -617,6 +627,18 @@ body.no-scroll{overflow:hidden}
                     </div>
                   </b:if>
                   <div id='homePagination'></div>
+                </div>
+              </b:if>
+
+              <!-- ========== 404 ERROR PAGE ========== -->
+              <b:if cond='data:blog.pageType == &quot;error_page&quot;'>
+                <div class='error-404'>
+                  <div class='error-404-icon'>404</div>
+                  <h2>Page Not Found</h2>
+                  <p>The page you are looking for does not exist or has been moved. Go back to the homepage to explore more movies and series.</p>
+                  <a class='error-404-btn' expr:href='data:blog.homepageUrl'>
+                    <i class='fas fa-home'></i> Go Home
+                  </a>
                 </div>
               </b:if>
 
