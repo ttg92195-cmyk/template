@@ -37,7 +37,7 @@ document.addEventListener('gestureend',function(e){e.preventDefault();},{passive
   - Server card download format
   - Homepage with Movies + Series sections
   - Bottom nav: Home, Movies, Series, Bookmark, Recent
-  Version: 25.19
+  Version: 25.20
 =======================================*/
 :root{
 --bg:#0a0a12;--bg2:#11111d;--bg3:#1a1a2e;
@@ -133,6 +133,7 @@ body.post-page .app-drawer{display:none!important}
 
 /* ========== POST GRID (Homepage) ========== */
 .post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0}
+#homeSections{padding-bottom:calc(var(--bnav-h) + 8px)}
 
 /* ========== HOMEPAGE SKELETON ========== */
 .home-skeleton{padding:0}
