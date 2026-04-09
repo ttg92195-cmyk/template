@@ -238,8 +238,6 @@ body.post-page .container{padding:0}
 .explore-heading i{color:var(--accent)}
 .explore-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px}
 .explore-scroll::-webkit-scrollbar{display:none}
-.explore-skeleton{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px}
-.explore-skeleton.hide{display:none}
 .explore-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer}
 .explore-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3)}
 .explore-poster img{width:100%;height:100%;object-fit:cover}
@@ -769,10 +767,12 @@ body.no-scroll{overflow:hidden}
                 <div class='pd-tab-panel' id='tabExplore'>
                   <div class='explore-heading'><i class='fas fa-compass'></i> You may also like</div>
                   <div class='explore-scroll' id='exploreGrid'>
-                    <div class='explore-skeleton' id='exploreSkeleton'>
-                      <div style='border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)'><div style='aspect-ratio:2/3;background:var(--bg3)'></div><div style='padding:5px 4px;height:40px;background:var(--card)'><div style='height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px'></div><div style='height:10px;background:var(--bg3);border-radius:5px;width:40%'></div></div></div>
-                      <div style='border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)'><div style='aspect-ratio:2/3;background:var(--bg3)'></div><div style='padding:5px 4px;height:40px;background:var(--card)'><div style='height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px'></div><div style='height:10px;background:var(--bg3);border-radius:5px;width:40%'></div></div></div>
-                      <div style='border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)'><div style='aspect-ratio:2/3;background:var(--bg3)'></div><div style='padding:5px 4px;height:40px;background:var(--card)'><div style='height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px'></div><div style='height:10px;background:var(--bg3);border-radius:5px;width:40%'></div></div></div>
+                    <div class='home-skeleton' id='exploreSkeleton'>
+                      <div class='skel-grid'>
+                        <div class='skel-card'><div class='skel-card-poster'></div><div class='skel-card-info'><div class='skel-card-title'></div><div class='skel-card-year'></div></div></div>
+                        <div class='skel-card'><div class='skel-card-poster'></div><div class='skel-card-info'><div class='skel-card-title'></div><div class='skel-card-year'></div></div></div>
+                        <div class='skel-card'><div class='skel-card-poster'></div><div class='skel-card-info'><div class='skel-card-title'></div><div class='skel-card-year'></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
