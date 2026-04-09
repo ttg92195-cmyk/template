@@ -148,7 +148,6 @@ body.post-page .app-drawer{display:none!important}
 .home-skeleton .skel-card-year{height:10px;background:var(--bg3);border-radius:5px;width:40%}
 .home-skeleton.hide{display:none}
 .grid-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer}
-.grid-card:active .grid-poster img{opacity:.7}
 .grid-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3);width:100%}
 .grid-poster img{width:100%;height:100%;object-fit:cover;display:block;opacity:0}
 .grid-poster img.loaded{opacity:1}
@@ -194,7 +193,7 @@ body.post-page .container{padding:0}
 .pd-tab-btn:hover{color:var(--txt2)}
 .pd-tab-btn.active{color:var(--accent)}
 .pd-tab-btn.active::after{content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:3px;background:var(--accent);border-radius:3px 3px 0 0}
-.pd-tab-panel{display:none;padding:16px 16px 24px}
+.pd-tab-panel{display:none;padding:16px 16px 80px}
 .pd-tab-panel.active{display:block}
 
 /* ========== POST DETAIL: Detail Tab ========== */
@@ -239,8 +238,9 @@ body.post-page .container{padding:0}
 .explore-heading i{color:var(--accent)}
 .explore-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px}
 .explore-scroll::-webkit-scrollbar{display:none}
+.explore-skeleton{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px}
+.explore-skeleton.hide{display:none}
 .explore-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer}
-.explore-card:active .explore-poster img{opacity:.7}
 .explore-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3)}
 .explore-poster img{width:100%;height:100%;object-fit:cover}
 
@@ -768,7 +768,13 @@ body.no-scroll{overflow:hidden}
                 <!-- Explore Tab -->
                 <div class='pd-tab-panel' id='tabExplore'>
                   <div class='explore-heading'><i class='fas fa-compass'></i> You may also like</div>
-                  <div class='explore-scroll' id='exploreGrid'></div>
+                  <div class='explore-scroll' id='exploreGrid'>
+                    <div class='explore-skeleton' id='exploreSkeleton'>
+                      <div style='border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)'><div style='aspect-ratio:2/3;background:var(--bg3)'></div><div style='padding:5px 4px;height:40px;background:var(--card)'><div style='height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px'></div><div style='height:10px;background:var(--bg3);border-radius:5px;width:40%'></div></div></div>
+                      <div style='border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)'><div style='aspect-ratio:2/3;background:var(--bg3)'></div><div style='padding:5px 4px;height:40px;background:var(--card)'><div style='height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px'></div><div style='height:10px;background:var(--bg3);border-radius:5px;width:40%'></div></div></div>
+                      <div style='border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)'><div style='aspect-ratio:2/3;background:var(--bg3)'></div><div style='padding:5px 4px;height:40px;background:var(--card)'><div style='height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px'></div><div style='height:10px;background:var(--bg3);border-radius:5px;width:40%'></div></div></div>
+                    </div>
+                  </div>
                 </div>
 
               </div>
@@ -1952,6 +1958,7 @@ var exploreLoaded=false;
 function loadExplore(){
   var c=document.getElementById('exploreGrid');
   if(!c)return;
+  var skel=document.getElementById('exploreSkeleton');
   var labels=(window._pl&&window._pl.length>0)?window._pl:[];
   if(labels.length===0){
     var wrap=document.getElementById('pdWrap');
@@ -1966,13 +1973,13 @@ function loadExplore(){
   }
   if(!feedLabel&&labels.length>0)feedLabel=labels[0];
   if(!feedLabel){
-    c.innerHTML='<div style="flex:1;text-align:center;padding:30px;color:var(--muted);font-size:13px">No recommendations available.</div>';
+    if(skel)skel.classList.add('hide');
     return;
   }
-  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px"><div style="border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)"><div style="aspect-ratio:2/3;background:var(--bg3)"></div><div style="padding:5px 4px;height:40px;background:var(--card)"><div style="height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px"></div><div style="height:10px;background:var(--bg3);border-radius:5px;width:40%"></div></div></div><div style="border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)"><div style="aspect-ratio:2/3;background:var(--bg3)"></div><div style="padding:5px 4px;height:40px;background:var(--card)"><div style="height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px"></div><div style="height:10px;background:var(--bg3);border-radius:5px;width:40%"></div></div></div><div style="border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border)"><div style="aspect-ratio:2/3;background:var(--bg3)"></div><div style="padding:5px 4px;height:40px;background:var(--card)"><div style="height:12px;background:var(--bg3);border-radius:6px;width:80%;margin-bottom:8px"></div><div style="height:10px;background:var(--bg3);border-radius:5px;width:40%"></div></div></div></div>';
   var feedUrl=window.location.origin+'/feeds/posts/default/-/'+encodeURIComponent(feedLabel)+'?max-results=8&alt=json';
   var currentUrl=window.location.href.replace(/\/$/, '').replace(/\?m=1$/,'').replace(/\?m=0$/,'');
   fetch(feedUrl).then(function(r){return r.json();}).then(function(d){
+    if(skel)skel.classList.add('hide');
     if(!d.feed||!d.feed.entry){
       c.innerHTML='<div style="flex:1;text-align:center;padding:20px;color:var(--muted);font-size:12px">No related posts found.</div>';
       return;
