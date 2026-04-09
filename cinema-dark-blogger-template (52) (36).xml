@@ -148,7 +148,6 @@ body.post-page .app-drawer{display:none!important}
 .home-skeleton .skel-card-year{height:10px;background:var(--bg3);border-radius:5px;width:40%}
 .home-skeleton.hide{display:none}
 .grid-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer}
-.grid-card:active{opacity:.85}
 .grid-card:active .grid-poster::before{opacity:.45}
 .grid-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3);width:100%}
 .grid-poster::before{content:'';position:absolute;inset:0;background:var(--accent);z-index:3;opacity:0;pointer-events:none;mix-blend-mode:overlay}
@@ -242,7 +241,6 @@ body.post-page .container{padding:0}
 .explore-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px}
 .explore-scroll::-webkit-scrollbar{display:none}
 .explore-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer}
-.explore-card:active{opacity:.85}
 .explore-card:active .explore-poster::before{opacity:.45}
 .explore-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3)}
 .explore-poster::before{content:'';position:absolute;inset:0;background:var(--accent);z-index:3;opacity:0;pointer-events:none;mix-blend-mode:overlay}
