@@ -132,8 +132,8 @@ body.post-page .app-drawer{display:none!important}
 .view-all-link i{font-size:10px}
 
 /* ========== POST GRID (Homepage) ========== */
-.post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0;padding-bottom:calc(var(--bnav-h) + 30px)}
-#homeSections{padding-bottom:calc(var(--bnav-h) + 30px)}
+.post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0}
+#homeSections{padding-bottom:calc(var(--bnav-h) + 8px)}
 
 /* ========== HOMEPAGE SKELETON ========== */
 .home-skeleton{padding:0}
@@ -149,9 +149,7 @@ body.post-page .app-drawer{display:none!important}
 .home-skeleton.hide{display:none}
 .grid-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer}
 .grid-card:active{opacity:.85}
-.grid-card:active .grid-poster::before{opacity:.35}
 .grid-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3);width:100%}
-.grid-poster::before{content:'';position:absolute;inset:0;background:var(--accent);z-index:3;opacity:0;pointer-events:none}
 .grid-poster img{width:100%;height:100%;object-fit:cover;display:block;opacity:0}
 .grid-poster img.loaded{opacity:1}
 .grid-poster::after{content:'';position:absolute;inset:0;background:var(--bg3);z-index:1;opacity:1}
@@ -239,13 +237,11 @@ body.post-page .container{padding:0}
 /* ========== POST DETAIL: Explore Tab ========== */
 .explore-heading{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--txt)}
 .explore-heading i{color:var(--accent)}
-.explore-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 calc(var(--bnav-h) + 30px)}
+.explore-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 0 20px}
 .explore-scroll::-webkit-scrollbar{display:none}
 .explore-card{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer}
 .explore-card:active{opacity:.85}
-.explore-card:active .explore-poster::before{opacity:.35}
 .explore-poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--bg3)}
-.explore-poster::before{content:'';position:absolute;inset:0;background:var(--accent);z-index:3;opacity:0;pointer-events:none}
 .explore-poster img{width:100%;height:100%;object-fit:cover}
 
 .explore-qbadge{position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;color:#fff;background:var(--red)}
